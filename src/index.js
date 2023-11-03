@@ -22,6 +22,7 @@ async function onSearchForm(evt) {
     evt.preventDefault();
     query = evt.target.elements.searchQuery.value.trim();
     gallery.innerHTML = '';
+    page = 1;
 
     if (query === '') {
         Notiflix.Notify.failure('Please enter a search keyword!');
@@ -59,16 +60,17 @@ async function onSearchForm(evt) {
 btnLoadmore.addEventListener('click', onLoadMore);
 
 function onLoadMore() {
-      page += 1;
-
-      fetchImages(query, page, per_page)
+     page += 1;
+    fetchImages(query, page, per_page)
         .then(data => {
          renderGallery(data.hits);
 
        const totalPages = Math.ceil(data.totalHits / per_page);
-       if (page > totalPages) {
+            if (page > totalPages) {
+           btnLoadmore.style.display = 'none';
             Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
         }
        })
-       .catch(error => console.log(error));
+        .catch(error => console.log(error));
+    
 }

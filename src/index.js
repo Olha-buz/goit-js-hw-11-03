@@ -26,6 +26,7 @@ async function onSearchForm(evt) {
 
     if (query === '') {
         Notiflix.Notify.failure('Please enter a search keyword!');
+        btnLoadmore.style.display = 'none';
         return;
     };
     try {
@@ -70,6 +71,7 @@ function onLoadMore() {
     console.log(page);
     fetchImages(query, page, per_page)
         .then(data => {
+            renderGallery(data.hits);
             const totalPages = Math.ceil(data.total / per_page);
             console.log(totalPages);
             if (page >= totalPages) {
@@ -77,7 +79,7 @@ function onLoadMore() {
                 Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
                 return;
             };
-            renderGallery(data.hits);
+            
        })
         .catch(error => console.log(error));
     

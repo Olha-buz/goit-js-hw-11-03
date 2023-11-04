@@ -36,7 +36,12 @@ async function onSearchForm(evt) {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
         } else {
             renderGallery(images.hits);
-            btnLoadmore.style.display = 'flex';
+            if (images.total <= per_page) {
+                btnLoadmore.style.display = 'none';
+                Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+            } else {
+                btnLoadmore.style.display = 'flex';
+            };
             new SimpleLightbox('.gallery a', {
                 captions: true,
                 captionsData: 'alt',
@@ -46,6 +51,7 @@ async function onSearchForm(evt) {
                 enableKeyboard: true,
             });
             Notiflix.Notify.success(`Hooray! We found ${images.total} images.`);
+            
         }
     } catch (error) {
         console.log(error);
@@ -60,11 +66,13 @@ async function onSearchForm(evt) {
 btnLoadmore.addEventListener('click', onLoadMore);
 
 function onLoadMore() {
-     page += 1;
+    page += 1;
+    console.log(page);
     fetchImages(query, page, per_page)
         .then(data => {
             const totalPages = Math.ceil(data.total / per_page);
-            if (page > totalPages) {
+            console.log(totalPages);
+            if (page >= totalPages) {
                 btnLoadmore.style.display = 'none';
                 Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
                 return;

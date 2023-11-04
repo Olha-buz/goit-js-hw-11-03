@@ -63,12 +63,13 @@ function onLoadMore() {
      page += 1;
     fetchImages(query, page, per_page)
         .then(data => {
-         renderGallery(data.hits);
-        const totalPages = Math.ceil(data.total / per_page);
+            const totalPages = Math.ceil(data.total / per_page);
             if (page >= totalPages) {
                 btnLoadmore.style.display = 'none';
                 Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+                return;
             };
+            renderGallery(data.hits);
        })
         .catch(error => console.log(error));
     

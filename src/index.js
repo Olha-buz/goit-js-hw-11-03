@@ -65,7 +65,7 @@ function onLoadMore() {
         .then(data => {
          renderGallery(data.hits);
         const totalPages = Math.ceil(data.total / per_page);
-            if (page > totalPages) {
+            if (page >= totalPages) {
                 btnLoadmore.style.display = 'none';
                 Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
             };

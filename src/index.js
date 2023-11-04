@@ -15,7 +15,7 @@ form.addEventListener('submit', onSearchForm);
 
 let simplelightbox;
 let query = '';
-let page = 1;
+let page = 0;
 const per_page = 40;
 
 async function onSearchForm(evt) {
@@ -64,12 +64,11 @@ function onLoadMore() {
     fetchImages(query, page, per_page)
         .then(data => {
          renderGallery(data.hits);
-
-       const totalPages = Math.ceil(data.totalHits / per_page);
+        const totalPages = Math.ceil(data.total / per_page);
             if (page > totalPages) {
-           btnLoadmore.style.display = 'none';
-            Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-        }
+                btnLoadmore.style.display = 'none';
+                Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+            };
        })
         .catch(error => console.log(error));
     

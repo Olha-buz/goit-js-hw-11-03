@@ -35,6 +35,7 @@ async function onSearchForm(evt) {
 
         if (images.total === 0) {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+            btnLoadmore.style.display = 'none';
         } else {
             renderGallery(images.hits);
             if (images.total <= per_page) {
